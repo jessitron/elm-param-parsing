@@ -1,5 +1,6 @@
 module Main where
 
+import ParserUtils as Subject
 import List
 
 import ElmTest.Assertion as A
@@ -11,11 +12,15 @@ import IO.IO exposing (..)
 import IO.Runner exposing (Request, Response)
 import IO.Runner as Run
 
+firstOccurrenceTests = 
+  Suite "firstOccurrence"
+   [
+     test "realistic example" (A.assertEqual (Just 4) (Subject.firstOccurrence '=' "foo=bar"))
+   ]
+
 tests : List Test
-tests = [ (R.run (0 `equals` 0)) `equals` (R.Pass "0 == 0")
-        , test "pass" <| A.assert (R.pass <| R.Pass "")
-        , test "fail" <| A.assertNotEqual (R.fail <| R.Pass "") True
-        ] ++ (List.map defaultTest <| A.assertionList [1..10] [1..10])
+tests = [ firstOccurrenceTests
+        ] 
 
 console = runDisplay <| Suite "All Tests" tests
 
