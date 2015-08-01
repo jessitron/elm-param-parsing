@@ -16,12 +16,18 @@ model = parseSearchString windowLocationSearch
 
 --- VIEW 
 view : Model -> Html
-view model = 
+view model =  
   case model of
     Error msg -> Html.h2 [] [Html.text msg]
-    UrlParams dict -> Html.table [] 
-      ((Html.thead [] [Html.tr [] [row ("Key", "Value")]]) :: (List.map row (Dict.toList dict)))
-      
+    UrlParams dict -> Html.div [ Attr.style [("margin", "20px")]] 
+      [
+        Html.h2 [] [Html.text "URL Parameter Parsing in Elm"],
+        paramsTable dict
+      ]
+
+paramsTable : Dict String String -> Html
+paramsTable dict = Html.table [ Attr.class "pure-table" ] 
+      ((Html.thead [] [row ("Key", "Value")]) :: (List.map row (Dict.toList dict)))
 
 row : (String, String) -> Html
 row (k, v) = Html.tr [] [(Html.td [] [Html.text k]), (Html.td [] [Html.text v])]
