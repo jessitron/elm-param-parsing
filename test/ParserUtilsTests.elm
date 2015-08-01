@@ -15,7 +15,7 @@ import IO.Runner as Run
 firstOccurrenceTests = 
   Suite "firstOccurrence"
    [
-     test "realistic example" (A.assertEqual (Just 4) (Subject.firstOccurrence '=' "foo=bar"))
+     test "realistic example" (A.assertEqual (Just 3) (Subject.firstOccurrence '=' "foo=bar"))
    ]
 
 tests : List Test

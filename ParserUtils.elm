@@ -13,6 +13,6 @@ splitAtFirst c s =
 
 firstOccurrence : Char -> String -> Maybe Int 
 firstOccurrence c s = 
-  case (String.indexes (toString c) s) of
+  case (String.indexes (String.fromChar c) s) of
     []        -> Nothing
     head :: _ -> Just head
