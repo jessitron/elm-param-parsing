@@ -29,4 +29,11 @@ parseSearchString : String -> Model
 parseSearchString startsWithQuestionMarkThenParams =
   case (String.uncons startsWithQuestionMarkThenParams) of
     Nothing -> Error "No URL params"
-    Just ('?', rest) -> Error ("This looks good: " ++ rest)
+    Just ('?', rest) -> parseParams rest
+
+parseParams : String -> Model
+parseParams stringWithAmpersands =
+  let
+    eachParam = (String.split "&" stringWithAmpersands)
+  in
+    Error ("Got: " ++ (String.join ", " eachParam))
