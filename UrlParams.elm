@@ -1,6 +1,7 @@
 module UrlParams where
 
 import Html exposing (Html)
+import Html.Attributes as Attr
 import Dict exposing (Dict)
 import String
 
@@ -18,7 +19,12 @@ view : Model -> Html
 view model = 
   case model of
     Error msg -> Html.h2 [] [Html.text msg]
-    UrlParams _ -> Html.text "Not implemented"
+    UrlParams dict -> Html.table [] 
+      ((Html.thead [] [Html.tr [] [row ("Key", "Value")]]) :: (List.map row (Dict.toList dict)))
+      
+
+row : (String, String) -> Html
+row (k, v) = Html.tr [] [(Html.td [] [Html.text k]), (Html.td [] [Html.text v])]
 
 --- wiring
 main : Html
