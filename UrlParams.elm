@@ -9,7 +9,7 @@ type Model =
     Error String
   | UrlParams (Dict String String)
 
-model = Error windowLocationSearch
+model = parseSearchString windowLocationSearch
 
 --- VIEW 
 view : Model -> Html
@@ -23,3 +23,10 @@ main : Html
 main = view model
 
 port windowLocationSearch : String
+
+--- functions
+parseSearchString : String -> Model
+parseSearchString startsWithQuestionMarkThenParams =
+  case (String.uncons startsWithQuestionMarkThenParams) of
+    Nothing -> Error "No URL params"
+    Just ('?', rest) -> Error ("This looks good: " ++ rest)
