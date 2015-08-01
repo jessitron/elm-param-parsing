@@ -39,5 +39,5 @@ parseParams stringWithAmpersands =
     eachParam = (String.split "&" stringWithAmpersands)
     eachPair  = List.map (splitAtFirst '=') eachParam
   in
-    Error ("Got: " ++ (String.join ", " (List.map toString eachPair)))
+    UrlParams (Dict.fromList eachPair)
 
