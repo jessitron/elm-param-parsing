@@ -4,6 +4,8 @@ import Html exposing (Html)
 import Dict exposing (Dict)
 import String
 
+import ParserUtils exposing (splitAtFirst, firstOccurrence)
+
 --- MODEL
 type Model = 
     Error String
@@ -39,16 +41,3 @@ parseParams stringWithAmpersands =
   in
     Error ("Got: " ++ (String.join ", " (List.map toString eachPair)))
 
-
-splitAtFirst : Char -> String -> (String, String)
-splitAtFirst c s =
-  case (firstOccurrence c s) of
-    Nothing -> (s, "")
-    Just i  -> ((String.left i s), (String.dropLeft (i + 1) s))
-
-
-firstOccurrence : Char -> String -> Maybe Int 
-firstOccurrence c s = 
-  case (String.indexes (toString c) s) of
-    []        -> Nothing
-    head :: _ -> Just head
