@@ -7,10 +7,10 @@ import Dict exposing (Dict)
 import UrlParameterParser exposing (ParseResult(..), parseSearchString)
 
 --- MODEL
-type alias Model = ParseResult
+type alias Model = { tableData: ParseResult }
 
 init: String -> Model
-init windowLocationSearch = parseSearchString windowLocationSearch
+init windowLocationSearch = { tableData = parseSearchString windowLocationSearch }
 
 --- VIEW 
 view : Model -> Html
@@ -18,13 +18,13 @@ view model =
   Html.div [ Attr.style [("margin", "20px")]] 
     [
       Html.h2 [] [Html.text "URL Parameter Parsing in Elm"],
-      parameterTableOrError model
+      parameterTableOrError model.tableData
     ]
 
 tableClassFromPureCss = "pure-table"
 
-parameterTableOrError model =
-  case model of
+parameterTableOrError parseResult =
+  case parseResult of
     Error msg -> Html.h2 [] [Html.text msg]
     UrlParams dict -> paramsTable dict
 
