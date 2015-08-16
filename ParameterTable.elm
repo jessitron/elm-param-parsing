@@ -3,15 +3,11 @@ module ParameterTable(view, init) where
 import Html exposing (Html)
 import Html.Attributes as Attr
 import Dict exposing (Dict)
-import String
 
-import ParserUtils exposing (splitAtFirst, firstOccurrence)
+import UrlParameterParser exposing (ParseResult(..), parseSearchString)
 
 --- MODEL
-type Model = 
-    Error String
-  | UrlParams (Dict String String)
-
+type alias Model = ParseResult
 
 init: String -> Model
 init windowLocationSearch = parseSearchString windowLocationSearch
@@ -37,19 +33,3 @@ paramsTable dict = Html.table [ Attr.class tableClassFromPureCss ]
 row : (String, String) -> Html
 row (k, v) = Html.tr [] [(Html.td [] [Html.text k]), (Html.td [] [Html.text v])]
 
-
---- functions for parsing
-
-parseSearchString : String -> Model
-parseSearchString startsWithQuestionMarkThenParams =
-  case (String.uncons startsWithQuestionMarkThenParams) of
-    Nothing -> Error "No URL params"
-    Just ('?', rest) -> parseParams rest
-
-parseParams : String -> Model
-parseParams stringWithAmpersands =
-  let
-    eachParam = (String.split "&" stringWithAmpersands)
-    eachPair  = List.map (splitAtFirst '=') eachParam
-  in
-    UrlParams (Dict.fromList eachPair)
