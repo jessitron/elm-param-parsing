@@ -14,18 +14,20 @@ init windowLocationSearch = parseSearchString windowLocationSearch
 
 --- VIEW 
 view : Model -> Html
-view model =  
-  case model of
-    Error msg -> Html.h2 [] [Html.text msg]
-    UrlParams dict -> Html.div [ Attr.style [("margin", "20px")]] 
-      [
-        Html.h2 [] [Html.text "URL Parameter Parsing in Elm"],
-        paramsTable dict
-      ]
+view model = 
+  Html.div [ Attr.style [("margin", "20px")]] 
+    [
+      Html.h2 [] [Html.text "URL Parameter Parsing in Elm"],
+      parameterTableOrError model
+    ]
 
 tableClassFromPureCss = "pure-table"
 
---- view construction functions
+parameterTableOrError model =
+  case model of
+    Error msg -> Html.h2 [] [Html.text msg]
+    UrlParams dict -> paramsTable dict
+
 paramsTable : Dict String String -> Html
 paramsTable dict = Html.table [ Attr.class tableClassFromPureCss ] 
       ((Html.thead [] [row ("Key", "Value")]) :: (List.map row (Dict.toList dict)))
