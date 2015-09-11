@@ -1,14 +1,9 @@
 # Elm Parameter Parsing
 
-This is sample code for a blog post.
+This is an elm library for parsing parameters
 
-## Try this at home
+## see it in action
 
-- get [Elm](http://elm-lang.org)
-- clone this repo
-- `elm package install`
-- `elm make src/*`
-- open index.html
-- add "?something=other" to the URL bar, so it'll populate the table
+The example app is built into this repo.
+[Live](http://jessitron.github.io/elm-param-parsing)
 
-License CC0

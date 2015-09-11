@@ -29,6 +29,13 @@ init (Dict.get parameters "customerID")
 init : Maybe String -> Model
 init maybeID = ...
 ```
+
+# Method
+@docs parseSearchString
+
+# Return type
+@docs ParseResult
+
  -}
 
 import Dict exposing (Dict)
