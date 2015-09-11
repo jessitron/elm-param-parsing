@@ -11748,63 +11748,90 @@ Elm.Native.VirtualDom.make = function(elm)
 
 },{}]},{},[23]);
 
-Elm.ParserUtils = Elm.ParserUtils || {};
-Elm.ParserUtils.make = function (_elm) {
+Elm.ParameterTable = Elm.ParameterTable || {};
+Elm.ParameterTable.make = function (_elm) {
    "use strict";
-   _elm.ParserUtils = _elm.ParserUtils || {};
-   if (_elm.ParserUtils.values)
-   return _elm.ParserUtils.values;
+   _elm.ParameterTable = _elm.ParameterTable || {};
+   if (_elm.ParameterTable.values)
+   return _elm.ParameterTable.values;
    var _op = {},
    _N = Elm.Native,
    _U = _N.Utils.make(_elm),
    _L = _N.List.make(_elm),
-   $moduleName = "ParserUtils",
+   $moduleName = "ParameterTable",
    $Basics = Elm.Basics.make(_elm),
+   $Dict = Elm.Dict.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm),
-   $String = Elm.String.make(_elm);
-   var firstOccurrence = F2(function (c,
-   s) {
+   $UrlParameterParser = Elm.UrlParameterParser.make(_elm);
+   var row = function (_v0) {
       return function () {
-         var _v0 = A2($String.indexes,
-         $String.fromChar(c),
-         s);
          switch (_v0.ctor)
-         {case "::":
-            return $Maybe.Just(_v0._0);
-            case "[]":
-            return $Maybe.Nothing;}
+         {case "_Tuple2":
+            return A2($Html.tr,
+              _L.fromArray([]),
+              _L.fromArray([A2($Html.td,
+                           _L.fromArray([]),
+                           _L.fromArray([$Html.text(_v0._0)]))
+                           ,A2($Html.td,
+                           _L.fromArray([]),
+                           _L.fromArray([$Html.text(_v0._1)]))]));}
          _U.badCase($moduleName,
-         "between lines 16 and 18");
+         "on line 36, column 14 to 81");
       }();
-   });
-   var splitAtFirst = F2(function (c,
-   s) {
+   };
+   var tableClassFromPureCss = "pure-table";
+   var paramsTable = function (dict) {
+      return A2($Html.table,
+      _L.fromArray([$Html$Attributes.$class(tableClassFromPureCss)]),
+      A2($List._op["::"],
+      A2($Html.thead,
+      _L.fromArray([]),
+      _L.fromArray([row({ctor: "_Tuple2"
+                        ,_0: "Key"
+                        ,_1: "Value"})])),
+      A2($List.map,
+      row,
+      $Dict.toList(dict))));
+   };
+   var parameterTableOrError = function (parseResult) {
       return function () {
-         var _v3 = A2(firstOccurrence,
-         c,
-         s);
-         switch (_v3.ctor)
-         {case "Just":
-            return {ctor: "_Tuple2"
-                   ,_0: A2($String.left,_v3._0,s)
-                   ,_1: A2($String.dropLeft,
-                   _v3._0 + 1,
-                   s)};
-            case "Nothing":
-            return {ctor: "_Tuple2"
-                   ,_0: s
-                   ,_1: ""};}
+         switch (parseResult.ctor)
+         {case "Error":
+            return A2($Html.h2,
+              _L.fromArray([]),
+              _L.fromArray([$Html.text(parseResult._0)]));
+            case "UrlParams":
+            return paramsTable(parseResult._0);}
          _U.badCase($moduleName,
-         "between lines 9 and 11");
+         "between lines 27 and 29");
       }();
-   });
-   _elm.ParserUtils.values = {_op: _op
-                             ,splitAtFirst: splitAtFirst
-                             ,firstOccurrence: firstOccurrence};
-   return _elm.ParserUtils.values;
+   };
+   var view = function (model) {
+      return A2($Html.div,
+      _L.fromArray([$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
+                                                         ,_0: "margin"
+                                                         ,_1: "20px"}]))]),
+      _L.fromArray([A2($Html.h2,
+                   _L.fromArray([]),
+                   _L.fromArray([$Html.text("URL Parameter Parsing in Elm")]))
+                   ,parameterTableOrError(model.tableData)]));
+   };
+   var init = function (windowLocationSearch) {
+      return {_: {}
+             ,tableData: $UrlParameterParser.parseSearchString(windowLocationSearch)};
+   };
+   var Model = function (a) {
+      return {_: {},tableData: a};
+   };
+   _elm.ParameterTable.values = {_op: _op
+                                ,view: view
+                                ,init: init};
+   return _elm.ParameterTable.values;
 };
 Elm.Result = Elm.Result || {};
 Elm.Result.make = function (_elm) {
@@ -12671,6 +12698,104 @@ Elm.Transform2D.make = function (_elm) {
                              ,scaleY: scaleY};
    return _elm.Transform2D.values;
 };
+Elm.UrlParameterParser = Elm.UrlParameterParser || {};
+Elm.UrlParameterParser.make = function (_elm) {
+   "use strict";
+   _elm.UrlParameterParser = _elm.UrlParameterParser || {};
+   if (_elm.UrlParameterParser.values)
+   return _elm.UrlParameterParser.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "UrlParameterParser",
+   $Basics = Elm.Basics.make(_elm),
+   $Dict = Elm.Dict.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm);
+   var firstOccurrence = F2(function (c,
+   s) {
+      return function () {
+         var _v0 = A2($String.indexes,
+         $String.fromChar(c),
+         s);
+         switch (_v0.ctor)
+         {case "::":
+            return $Maybe.Just(_v0._0);
+            case "[]":
+            return $Maybe.Nothing;}
+         _U.badCase($moduleName,
+         "between lines 36 and 38");
+      }();
+   });
+   var splitAtFirst = F2(function (c,
+   s) {
+      return function () {
+         var _v3 = A2(firstOccurrence,
+         c,
+         s);
+         switch (_v3.ctor)
+         {case "Just":
+            return {ctor: "_Tuple2"
+                   ,_0: A2($String.left,_v3._0,s)
+                   ,_1: A2($String.dropLeft,
+                   _v3._0 + 1,
+                   s)};
+            case "Nothing":
+            return {ctor: "_Tuple2"
+                   ,_0: s
+                   ,_1: ""};}
+         _U.badCase($moduleName,
+         "between lines 29 and 31");
+      }();
+   });
+   var UrlParams = function (a) {
+      return {ctor: "UrlParams"
+             ,_0: a};
+   };
+   var parseParams = function (stringWithAmpersands) {
+      return function () {
+         var eachParam = A2($String.split,
+         "&",
+         stringWithAmpersands);
+         var eachPair = A2($List.map,
+         splitAtFirst(_U.chr("=")),
+         eachParam);
+         return UrlParams($Dict.fromList(eachPair));
+      }();
+   };
+   var Error = function (a) {
+      return {ctor: "Error",_0: a};
+   };
+   var parseSearchString = function (startsWithQuestionMarkThenParams) {
+      return function () {
+         var _v5 = $String.uncons(startsWithQuestionMarkThenParams);
+         switch (_v5.ctor)
+         {case "Just":
+            switch (_v5._0.ctor)
+              {case "_Tuple2":
+                 switch (_v5._0._0 + "")
+                   {case "?":
+                      return parseParams(_v5._0._1);}
+                   break;}
+              break;
+            case "Nothing":
+            return Error("No URL params");}
+         _U.badCase($moduleName,
+         "between lines 12 and 14");
+      }();
+   };
+   _elm.UrlParameterParser.values = {_op: _op
+                                    ,parseSearchString: parseSearchString
+                                    ,splitAtFirst: splitAtFirst
+                                    ,firstOccurrence: firstOccurrence
+                                    ,Error: Error
+                                    ,UrlParams: UrlParams};
+   return _elm.UrlParameterParser.values;
+};
 Elm.UrlParams = Elm.UrlParams || {};
 Elm.UrlParams.make = function (_elm) {
    "use strict";
@@ -12683,118 +12808,21 @@ Elm.UrlParams.make = function (_elm) {
    _L = _N.List.make(_elm),
    $moduleName = "UrlParams",
    $Basics = Elm.Basics.make(_elm),
-   $Dict = Elm.Dict.make(_elm),
    $Html = Elm.Html.make(_elm),
-   $Html$Attributes = Elm.Html.Attributes.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
-   $ParserUtils = Elm.ParserUtils.make(_elm),
+   $ParameterTable = Elm.ParameterTable.make(_elm),
    $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm),
-   $String = Elm.String.make(_elm);
+   $Signal = Elm.Signal.make(_elm);
    var windowLocationSearch = Elm.Native.Port.make(_elm).inbound("windowLocationSearch",
    "String",
    function (v) {
       return typeof v === "string" || typeof v === "object" && v instanceof String ? v : _U.badPort("a string",
       v);
    });
-   var row = function (_v0) {
-      return function () {
-         switch (_v0.ctor)
-         {case "_Tuple2":
-            return A2($Html.tr,
-              _L.fromArray([]),
-              _L.fromArray([A2($Html.td,
-                           _L.fromArray([]),
-                           _L.fromArray([$Html.text(_v0._0)]))
-                           ,A2($Html.td,
-                           _L.fromArray([]),
-                           _L.fromArray([$Html.text(_v0._1)]))]));}
-         _U.badCase($moduleName,
-         "on line 33, column 14 to 81");
-      }();
-   };
-   var paramsTable = function (dict) {
-      return A2($Html.table,
-      _L.fromArray([$Html$Attributes.$class("pure-table")]),
-      A2($List._op["::"],
-      A2($Html.thead,
-      _L.fromArray([]),
-      _L.fromArray([row({ctor: "_Tuple2"
-                        ,_0: "Key"
-                        ,_1: "Value"})])),
-      A2($List.map,
-      row,
-      $Dict.toList(dict))));
-   };
-   var view = function (model) {
-      return function () {
-         switch (model.ctor)
-         {case "Error":
-            return A2($Html.h2,
-              _L.fromArray([]),
-              _L.fromArray([$Html.text(model._0)]));
-            case "UrlParams":
-            return A2($Html.div,
-              _L.fromArray([$Html$Attributes.style(_L.fromArray([{ctor: "_Tuple2"
-                                                                 ,_0: "margin"
-                                                                 ,_1: "20px"}]))]),
-              _L.fromArray([A2($Html.h2,
-                           _L.fromArray([]),
-                           _L.fromArray([$Html.text("URL Parameter Parsing in Elm")]))
-                           ,paramsTable(model._0)]));}
-         _U.badCase($moduleName,
-         "between lines 20 and 26");
-      }();
-   };
-   var UrlParams = function (a) {
-      return {ctor: "UrlParams"
-             ,_0: a};
-   };
-   var parseParams = function (stringWithAmpersands) {
-      return function () {
-         var eachParam = A2($String.split,
-         "&",
-         stringWithAmpersands);
-         var eachPair = A2($List.map,
-         $ParserUtils.splitAtFirst(_U.chr("=")),
-         eachParam);
-         return UrlParams($Dict.fromList(eachPair));
-      }();
-   };
-   var Error = function (a) {
-      return {ctor: "Error",_0: a};
-   };
-   var parseSearchString = function (startsWithQuestionMarkThenParams) {
-      return function () {
-         var _v7 = $String.uncons(startsWithQuestionMarkThenParams);
-         switch (_v7.ctor)
-         {case "Just":
-            switch (_v7._0.ctor)
-              {case "_Tuple2":
-                 switch (_v7._0._0 + "")
-                   {case "?":
-                      return parseParams(_v7._0._1);}
-                   break;}
-              break;
-            case "Nothing":
-            return Error("No URL params");}
-         _U.badCase($moduleName,
-         "between lines 44 and 46");
-      }();
-   };
-   var model = parseSearchString(windowLocationSearch);
-   var main = view(model);
+   var main = $ParameterTable.view($ParameterTable.init(windowLocationSearch));
    _elm.UrlParams.values = {_op: _op
-                           ,Error: Error
-                           ,UrlParams: UrlParams
-                           ,model: model
-                           ,view: view
-                           ,paramsTable: paramsTable
-                           ,row: row
-                           ,main: main
-                           ,parseSearchString: parseSearchString
-                           ,parseParams: parseParams};
+                           ,main: main};
    return _elm.UrlParams.values;
 };
 Elm.VirtualDom = Elm.VirtualDom || {};
