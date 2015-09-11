@@ -10,10 +10,11 @@ fi
 commit=$1
 
 git fetch
-git checkout $commit .
+git checkout $commit src
+git checkout $commit elm-package.json
 git reset
 git checkout HEAD .gitignore
-elm-make *.elm
+elm-make src/UrlParams.elm
 git add elm.js
 git add index.html
 git commit -m "Updated to $commit"
