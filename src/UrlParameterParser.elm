@@ -1,7 +1,39 @@
-module UrlParameterParser(ParseResult(..), parseSearchString, splitAtFirst, firstOccurrence) where
+module UrlParameterParser(ParseResult(..), parseSearchString) where
+
+{-| Parse URL parameters. To use this, you'll need to create an input port, pass the search string to Elm,
+and then parse them with this function, then that can populate your model.
+
+For instance, in the web page:
+```
+   var app = Elm.fullscreen(Elm.YourModule,
+               { locationSearch: window.location.search });
+```
+in YourModule.elm:
+```
+port locationSearch : String
+```
+
+Then parse the value of the port - this example discards errors:
+```
+parameters : Dict String String
+parameters = 
+  case (parseSearchString locationSearch) of
+    Error _ -> Dict.empty
+    UrlParams dict -> dict
+```
+
+Then use that dict when you call your init function that needs the value of the parameter. It'll get a Maybe String.
+```
+init (Dict.get parameters "customerID")
+
+init : Maybe String -> Model
+init maybeID = ...
+```
+ -}
 
 import Dict exposing (Dict)
 import String
+import UrlParseUtil exposing (..)
 
 {-|
   If parsing is successful, you get a UrlParams containing a dictionary of keys to values.
@@ -30,18 +62,3 @@ parseParams stringWithAmpersands =
   in
     UrlParams (Dict.fromList eachPair)
 
-
--- these are exposed only so that I can test these things
-
-splitAtFirst : Char -> String -> (String, String)
-splitAtFirst c s =
-  case (firstOccurrence c s) of
-    Nothing -> (s, "")
-    Just i  -> ((String.left i s), (String.dropLeft (i + 1) s))
-
-
-firstOccurrence : Char -> String -> Maybe Int 
-firstOccurrence c s = 
-  case (String.indexes (String.fromChar c) s) of
-    []        -> Nothing
-    head :: _ -> Just head

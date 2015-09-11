@@ -1,6 +1,6 @@
 module Main where
 
-import UrlParameterParser as Subject
+import UrlParseUtil as Subject
 import List
 
 import ElmTest.Assertion as A
