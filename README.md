@@ -25,7 +25,7 @@ parameters =
   case (parseSearchString locationSearch) of
     Error _ -> Dict.empty
     UrlParams dict -> dict
-    ```
+```
 
 Then use that dict when you call your init function that needs the value
 of the parameter.
