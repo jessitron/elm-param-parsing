@@ -18,7 +18,7 @@ For instance, in the web page:
 in YourModule.elm, declare the port and then parse what comes into it. This example discards errors:
 
 ```
-import Dict
+import Dict exposing (Dict)
 
 port locationSearch : String
 
