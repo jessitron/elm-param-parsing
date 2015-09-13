@@ -4,21 +4,22 @@ This is an elm library for parsing parameters on the URL.
 
 ## To use it
 
-```elm package install jessitron/elm-param-parsing`e this, you'll need
+```elm package install jessitron/elm-param-parsing```
+
+To use this, you'll need
 to create an input port, pass the search string to Elm, and then parse
 them with this function, then that can populate your model.
 
 For instance, in the web page:
 
-   var app = Elm.fullscreen(Elm.YourModule,
+    var app = Elm.fullscreen(Elm.YourModule,
                { locationSearch: window.location.search });
 
-in YourModule.elm:
+in YourModule.elm, declare the port and then parse what comes into it. This example discards errors:
 
-port locationSearch : String
-Then parse the value of the port - this example discards errors:
+```port locationSearch : String
 
-```parameters : Dict String String
+parameters : Dict String String
 parameters =
   case (parseSearchString locationSearch) of
     Error _ -> Dict.empty
