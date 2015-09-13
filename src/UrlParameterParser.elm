@@ -15,6 +15,10 @@ port locationSearch : String
 
 Then parse the value of the port - this example discards errors:
 ```
+
+import Dict exposing (Dict)
+import UrlParameterParser exposing (ParseResult(..))
+
 parameters : Dict String String
 parameters = 
   case (parseSearchString locationSearch) of
@@ -24,7 +28,7 @@ parameters =
 
 Then use that dict when you call your init function that needs the value of the parameter. It'll get a Maybe String.
 ```
-init (Dict.get parameters "customerID")
+init (Dict.get "customerID" parameters)
 
 init : Maybe String -> Model
 init maybeID = ...

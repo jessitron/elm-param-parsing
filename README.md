@@ -19,12 +19,13 @@ in YourModule.elm, declare the port and then parse what comes into it. This exam
 
 ```
 import Dict exposing (Dict)
+import UrlParameterParser exposing (ParseResult(..))
 
 port locationSearch : String
 
 parameters : Dict String String
 parameters =
-  case (parseSearchString locationSearch) of
+  case (UrlParameterParser.parseSearchString locationSearch) of
     Error _ -> Dict.empty
     UrlParams dict -> dict
 ```
