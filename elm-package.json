@@ -1,5 +1,5 @@
 {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "summary": "utility method to parse URL parameters",
     "repository": "https://github.com/jessitron/elm-param-parsing.git",
     "license": "BSD3",
