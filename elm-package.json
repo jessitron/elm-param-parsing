@@ -1,12 +1,14 @@
 {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "summary": "utility method to parse URL parameters",
     "repository": "https://github.com/jessitron/elm-param-parsing.git",
     "license": "BSD3",
     "source-directories": [
         "src"
     ],
-    "exposed-modules": ["UrlParameterParser"],
+    "exposed-modules": [
+        "UrlParameterParser"
+    ],
     "dependencies": {
         "elm-lang/core": "2.1.0 <= v < 3.0.0"
     },
