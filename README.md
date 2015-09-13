@@ -17,21 +17,25 @@ For instance, in the web page:
 
 in YourModule.elm, declare the port and then parse what comes into it. This example discards errors:
 
-```port locationSearch : String
+```
+port locationSearch : String
 
 parameters : Dict String String
 parameters =
   case (parseSearchString locationSearch) of
     Error _ -> Dict.empty
-    UrlParams dict -> dict```
+    UrlParams dict -> dict
+    ```
 
 Then use that dict when you call your init function that needs the value
 of the parameter.
 
-```init (Dict.get parameters "customerID")
+```
+init (Dict.get parameters "customerID")
 
 init : Maybe String -> Model
-init maybeID = ...```
+init maybeID = ...
+```
 
 ## see it in action
 
