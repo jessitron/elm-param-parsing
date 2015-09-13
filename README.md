@@ -35,6 +35,6 @@ init maybeID = ...```
 ## see it in action
 
 The example app is built into this repo.
-[source](http://jessitron.)
+[source](https://github.com/jessitron/elm-param-parsing/tree/ui)
 [Live](http://jessitron.github.io/elm-param-parsing)
 
