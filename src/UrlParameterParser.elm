@@ -41,7 +41,7 @@ init maybeID = ...
 # Return type
 @docs ParseResult
 
- -}
+-}
 
 import Dict exposing (Dict)
 import String
