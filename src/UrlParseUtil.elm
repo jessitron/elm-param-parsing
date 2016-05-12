@@ -1,4 +1,4 @@
-module UrlParseUtil where
+module UrlParseUtil exposing (..)
 
 import String
 

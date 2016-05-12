@@ -1,7 +1,7 @@
-module UrlParameterParser
+module UrlParameterParser exposing
   ( ParseResult(..)
   , parseSearchString
-  ) where
+  )
 
 {-| Parse URL parameters. To use this, you'll need to create an
 input port, pass the search string to Elm,
