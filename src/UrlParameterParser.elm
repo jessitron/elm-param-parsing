@@ -1,6 +1,10 @@
-module UrlParameterParser(ParseResult(..), parseSearchString) where
+module UrlParameterParser exposing
+  ( ParseResult(..)
+  , parseSearchString
+  )
 
-{-| Parse URL parameters. To use this, you'll need to create an input port, pass the search string to Elm,
+{-| Parse URL parameters. To use this, you'll need to create an
+input port, pass the search string to Elm,
 and then parse them with this function, then that can populate your model.
 
 For instance, in the web page:
@@ -16,13 +20,14 @@ port locationSearch : String
 Then parse the value of the port - this example discards errors:
 ```
 parameters : Dict String String
-parameters = 
+parameters =
   case (parseSearchString locationSearch) of
     Error _ -> Dict.empty
     UrlParams dict -> dict
 ```
 
-Then use that dict when you call your init function that needs the value of the parameter. It'll get a Maybe String.
+Then use that dict when you call your init function that needs the
+value of the parameter. It'll get a Maybe String.
 ```
 init (Dict.get parameters "customerID")
 
@@ -36,7 +41,7 @@ init maybeID = ...
 # Return type
 @docs ParseResult
 
- -}
+-}
 
 import Dict exposing (Dict)
 import String
@@ -47,9 +52,9 @@ import UrlParseUtil exposing (..)
   Otherwise, an error string.
   If there are no parameters, you'll get an error description.
  -}
-type ParseResult = 
+type ParseResult =
     Error String
-  | UrlParams (Dict String String)
+  | UrlParams (Dict String (Maybe String))
 
 {-|
   Given a search string of the form "?key=value&key2=val2"
@@ -57,9 +62,10 @@ type ParseResult =
  -}
 parseSearchString : String -> ParseResult
 parseSearchString startsWithQuestionMarkThenParams =
-  case (String.uncons startsWithQuestionMarkThenParams) of
+  case String.uncons startsWithQuestionMarkThenParams of
     Nothing -> Error "No URL params"
     Just ('?', rest) -> parseParams rest
+    _ -> Error "Doesn't start with `?`"
 
 parseParams : String -> ParseResult
 parseParams stringWithAmpersands =
